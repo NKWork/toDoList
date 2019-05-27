@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'dashboardController@index');
+Route::post('/create', 'dashboardController@create');
