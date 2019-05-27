@@ -12,4 +12,4 @@
 */
 
 Route::get('/', 'dashboardController@index');
-Route::post('/create', 'dashboardController@create');
+Route::post('/dashboard/add', 'dashboardController@createTask');
