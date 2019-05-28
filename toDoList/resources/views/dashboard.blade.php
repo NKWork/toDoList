@@ -51,67 +51,29 @@
     </div>
   </div>
     <div>
-    <table>
-          
-          <tbody>
-            <tr style="vertical-align: top;">
-            @if($data)
-              @foreach ($data as $key=>$dat)
-                  @if($key==1)
-                  <td>
-                  <table>
-                        <thead>
-                          <th>TODO</th>
-                        </thead>
-                        <tbody>
-                    @foreach($dat as $d)
-                      @if($d)
-                          <tr><td>{{ $d }}</td></tr>
-                      @endif
+      <table>
+        <tbody>
+          <tr style="vertical-align: top;">
+            @foreach($statuses as $status)
+              <td>
+                <table>
+                  <thead>
+                    <th>{{$status->name}}</th>
+                  </thead>
+                  <tbody>
+                    @foreach($data[$status->id] as $d)
+                      <tr>
+                        <td>{{$d}}</td>
+                      </tr>
                     @endforeach
-                    <tbody>
-                      </table>
-                      </td>
-                  @endif
-                  @if($key==2)
-                  <td>
-                  <table>
-                        <thead>
-                          <th>DOING</th>
-                        </thead>
-                        <tbody>
-                    @foreach($dat as $d)
-                      @if($d)
-                          <tr><td>{{ $d }}</td></tr>
-                      @endif
-                    @endforeach
-                    <tbody>
-                        </table>
-                        </td>
-                  @endif
-                  @if($key==3)
-                  <td>
-                  <table>
-                        <thead>
-                          <th>DONE</th>
-                        </thead>
-                        <tbody>
-                    @foreach($dat as $d)
-                      @if($d)
-                          <tr><td>{{ $d }}</td></tr>
-                      @endif
-                    @endforeach
-                    <tbody>
-                      </table>
-                      </td>
-                  @endif
-              @endforeach
-            @endif
-            </tr>
-          </tbody>
-        </table>
-        {{$links->links()}}
-  </div>
+                  </tbody>
+                </table>
+              </td>
+            @endforeach
+          </tr>
+        </tbody>
+      </table>
+    </div>
    
   <script>
     const button = document.querySelector('#button');
