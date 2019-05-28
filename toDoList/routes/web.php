@@ -12,4 +12,7 @@
 */
 
 Route::get('/', 'dashboardController@index');
+Route::get('/dashboard/getcomments/{id}','dashboardController@getComments');
 Route::post('/dashboard/add', 'dashboardController@createTask');
+
+Route::put('/dashboard/update/{id}','dashboardController@update' );

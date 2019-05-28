@@ -10,7 +10,7 @@ class dashboardController extends Controller
     public function index(){
         $data = DB::table('tasks')->get();//->paginate(6);
             foreach($data as $d){
-                $table[$d->status_id][]=$d->name;
+                $table[$d->status_id][]=['id'=>$d->id,'name'=>$d->name];
             }
         $statuses = DB::table('statuses')->get();
             if(!empty($table)){
@@ -47,5 +47,31 @@ class dashboardController extends Controller
             'status_id' => $data['status'],
         ], 200);
        
+    }
+
+    public function update($id,Request $request){
+        $data = $request->input();
+        $validator = Validator::make($request->input(), array(
+            'newName' => 'required',
+        ));
+        if ($validator->fails()) {
+            return response()->json([
+                'error'    => true,
+                'messages' => $validator->errors(),
+            ], 422);
+        }
+        DB::table('tasks')->where('id', $id)->update(['name' => $data['newName'],'description'=>$data['description'],'status_id'=>$data['status_id']]);
+        DB::table('comments')->insert([
+            'task_id'=>$id,
+            'text_comment'=>$data['comment'],
+        ]);
+            return response()->json([
+                'error' => false,
+                'task'  => $data['newName'],
+            ], 200);
+    }
+
+    public function getComments($id){
+        return json_encode(DB::table('comments')->where('task_id',$id)->get());
     }
 }
