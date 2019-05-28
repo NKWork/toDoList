@@ -7,6 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script
 			  src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -63,7 +65,7 @@
     <button id="button">Create task</button>
     <div class="form">
             <input id='name' type='text' name='name'>
-            <input id='description' type='text' name='description'>
+            <input id='descriptionN' type='text' name='descriptionN'>
             <select id='status' name='status'>
                 <option value="1">toDo</option>
                 <option value="2">doing</option>
@@ -77,24 +79,27 @@
         <tbody>
           <tr style="vertical-align: top;">
             @foreach($statuses as $status)
-              <td>
+              <td >
                 <table>
-                  <thead>
+                  <thead >
                     <th>{{$status->name}}</th>
                   </thead>
-                  <tbody>
-                    @foreach($data[$status->id] as $d)
-                      <tr>
-                        <td>{{$d['name']}} <button id='myBtn' onclick="showModalFunk({{json_encode($d,TRUE)}})">update</button> </td>
-                      </tr>
-                    @endforeach
-                  </tbody>
+                  @if(!empty($data[$status->id]))
+                    <tbody>
+                        @foreach($data[$status->id] as $d)
+                          <tr>
+                            <td>{{$d['name']}} <button id='myBtn' onclick="showModalFunk({{json_encode($d,TRUE)}})">update</button> </td>
+                          </tr>
+                        @endforeach
+                    </tbody>
+                  @endif
                 </table>
               </td>
             @endforeach
           </tr>
         </tbody>
       </table>
+      {{$links->links()}}
     </div>
    
   <script>
@@ -112,7 +117,7 @@
 <script>
     function addTask(){
            name=$('#name').val();
-           description = $('#description').val();
+           description = $('#descriptionN').val();
            status=$( "#status option:selected" ).val();
            console.log(name,description,status);
         $.ajaxSetup({

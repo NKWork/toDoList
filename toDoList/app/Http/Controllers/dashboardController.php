@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 class dashboardController extends Controller
 {
     public function index(){
-        $data = DB::table('tasks')->get();//->paginate(6);
+        $data = DB::table('tasks')->paginate(6);
             foreach($data as $d){
                 $table[$d->status_id][]=['id'=>$d->id,'name'=>$d->name];
             }
+            
         $statuses = DB::table('statuses')->get();
             if(!empty($table)){
                 return view('dashboard',['data'=>$table,'links'=>$data,'statuses'=>$statuses]);

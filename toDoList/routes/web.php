@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', 'dashboardController@index');
-Route::get('/dashboard/getcomments/{id}','dashboardController@getComments');
-Route::post('/dashboard/add', 'dashboardController@createTask');
+Route::get('/', 'dashboardController@index')->middleware('auth');
+Route::get('/dashboard/getcomments/{id}','dashboardController@getComments')->middleware('auth');
+Route::post('/dashboard/add', 'dashboardController@createTask')->middleware('auth');
 
-Route::put('/dashboard/update/{id}','dashboardController@update' );
+Route::put('/dashboard/update/{id}','dashboardController@update' )->middleware('auth');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
