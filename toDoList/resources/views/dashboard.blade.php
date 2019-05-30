@@ -88,7 +88,7 @@
                     <tbody>
                         @foreach($data[$status->id] as $d)
                           <tr>
-                            <td>{{$d['name']}} <button id='myBtn' onclick="showModalFunk({{json_encode($d,TRUE)}})">update</button> </td>
+                            <td>{{$d['name']}} ({{$d['comment_count']}}) <button id='myBtn' onclick="showModalFunk({{json_encode($d,TRUE)}})">update</button> </td>
                           </tr>
                         @endforeach
                     </tbody>
@@ -172,8 +172,10 @@
             }
         })
          p.innerHTML=info['id'];
-         comments.innerHTML='asdasdasdasdasdsads';
-         document.getElementById('inputUpd').value=info['name'];   
+         //comments.innerHTML='asdasdasdasdasdsads';description
+         document.getElementById('inputUpd').value=info['name'];
+         document.getElementById('description').value=info['description']; 
+         document.getElementById('status_id').value=info['status_id'];  
     }
 
 

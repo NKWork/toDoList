@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 class dashboardController extends Controller
 {
     public function index(){
-        $data = DB::table('tasks')->paginate(6);
+         $data = DB::table('tasks')->leftJoin('comments','comments.task_id','=','tasks.id')
+                                    ->groupBy('tasks.id')
+                                    ->select('tasks.*',DB::raw('COALESCE(COUNT(comments.task_id),0) as count'))
+                                    ->paginate(6);
+
             foreach($data as $d){
-                $table[$d->status_id][]=['id'=>$d->id,'name'=>$d->name];
+                $table[$d->status_id][]=['id'=>$d->id,'name'=>$d->name,'comment_count'=>$d->count,
+                                        'description'=>$d->description,'status_id'=>$d->status_id];
             }
             
         $statuses = DB::table('statuses')->get();
@@ -62,10 +67,13 @@ class dashboardController extends Controller
             ], 422);
         }
         DB::table('tasks')->where('id', $id)->update(['name' => $data['newName'],'description'=>$data['description'],'status_id'=>$data['status_id']]);
-        DB::table('comments')->insert([
-            'task_id'=>$id,
-            'text_comment'=>$data['comment'],
-        ]);
+        if($data['comment']!=''){
+            DB::table('comments')->insert([
+                'task_id'=>$id,
+                'text_comment'=>$data['comment'],
+            ]);
+        }
+        
             return response()->json([
                 'error' => false,
                 'task'  => $data['newName'],
