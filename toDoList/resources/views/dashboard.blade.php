@@ -39,7 +39,7 @@
   </style>
 </head>
 <body>
-
+<a href="{{ route('logout') }}">Logout</a>
 <div id="myModal" class="modal">
 
 <!-- Modal content -->
