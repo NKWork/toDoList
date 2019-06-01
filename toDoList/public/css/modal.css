@@ -34,3 +34,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
   text-decoration: none;
   cursor: pointer;
 }
+.comments-area {
+    height: 100px; 
+    overflow: scroll;
+    margin-top: 20px;
+}

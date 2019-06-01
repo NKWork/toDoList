@@ -1,18 +1,18 @@
 <div>
-      <table>
+      <table class="table table-bordered " style='height:250px;' >
         <tbody>
           <tr style="vertical-align: top;">
             @foreach($statuses as $status)
               <td >
-                <table>
+                <table class="table table-bordered ">
                   <thead >
-                    <th>{{$status->name}}</th>
+                    <th style="padding:20px;">{{$status->name}}</th>
                   </thead>
                   @if(!empty($data[$status->id]))
                     <tbody>
                         @foreach($data[$status->id] as $d)
                           <tr>
-                            <td>{{$d['name']}} ({{$d['comment_count']}}) <button id='myBtn' onclick="showModalFunk({{json_encode($d,TRUE)}})">update</button> </td>
+                            <td><a onclick="showModalFunk({{json_encode($d,TRUE)}})">{{$d['name']}} ({{$d['comment_count']}})</a> </td>
                           </tr>
                         @endforeach
                     </tbody>
