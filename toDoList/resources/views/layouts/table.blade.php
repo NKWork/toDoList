@@ -2,6 +2,7 @@
       <table class="table table-bordered " style='height:325px;' >
         <tbody>
           <tr style="vertical-align: top;">
+          @if(!empty($statuses))
             @foreach($statuses as $status)
               <td >
                 <table class="table table-bordered ">
@@ -20,9 +21,12 @@
                 </table>
               </td>
             @endforeach
+          @endif
           </tr>
         </tbody>
       </table>
-      {{$links->links()}}
+      @if(!empty($links))
+        {{$links->links()}}
+      @endif
     </div>
    

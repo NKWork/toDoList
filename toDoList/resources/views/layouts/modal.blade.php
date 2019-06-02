@@ -11,9 +11,11 @@
     <textarea placeholder='Input new comment' class="form-control" id='comment' type="text" name='comment' value=''></textarea>
     </div>
     <select class="custom-select" id='status_id' name='status_id'>
-            @foreach($statuses as $status)
-                  <option value="{{$status->id}}">{{$status->name}}</option>
-            @endforeach
+      @if(!empty($statuses))
+        @foreach($statuses as $status)
+          <option value="{{$status->id}}">{{$status->name}}</option>
+        @endforeach
+      @endif
     </select> 
     <p id='p' style="display:none;"></p>
         <br>

@@ -10,24 +10,21 @@ use Carbon\Carbon;
 class dashboardController extends Controller
 {
     public function index(){
-        //$time=Carbon::now()->timestamp;
-        //dd(Carbon::now()->setTimezone('3')->toDateTimeString());
          $data = DB::table('tasks')->leftJoin('comments','comments.task_id','=','tasks.id')
                                     ->groupBy('tasks.id')
                                     ->orderBy('created_at','desc')
                                     ->select('tasks.*',DB::raw('COALESCE(COUNT(comments.task_id),0) as count'))
                                     ->paginate(6);
-
             foreach($data as $d){
                 $table[$d->status_id][]=['id'=>$d->id,'name'=>$d->name,'comment_count'=>$d->count,
                                         'description'=>$d->description,'status_id'=>$d->status_id];
             }
             
         $statuses = DB::table('statuses')->get();
-            if(!empty($table)){
+            if(!empty($data) && !empty($table)){
                 return view('dashboard',['data'=>$table,'links'=>$data,'statuses'=>$statuses]);
             }else{
-                return view('dashboard',['data'=>[],'links'=>[]]);
+                return view('dashboard',['data'=>[],'links'=>[],'statuses'=>$statuses]);
             }
     }
 
@@ -40,7 +37,6 @@ class dashboardController extends Controller
         ));
 
         if ($validator->fails()) {
-            //return redirect('layouts.errors')->with('error','form was submitting with errors');
              return response()->json([
                  'error'    => true,
                  'messages' => $validator->errors(),
