@@ -8,7 +8,7 @@
     <input class="form-control" id='description' type='text' name='description' value=''>
     </div>
     <div class="input-group" style='width:100%;'>
-    <textarea class="form-control" id='comment' type="text" name='comment' value=''></textarea>
+    <textarea placeholder='Input new comment' class="form-control" id='comment' type="text" name='comment' value=''></textarea>
     </div>
     <select class="custom-select" id='status_id' name='status_id'>
             @foreach($statuses as $status)

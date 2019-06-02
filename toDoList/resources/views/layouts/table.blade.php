@@ -1,5 +1,5 @@
 <div>
-      <table class="table table-bordered " style='height:250px;' >
+      <table class="table table-bordered " style='height:325px;' >
         <tbody>
           <tr style="vertical-align: top;">
             @foreach($statuses as $status)

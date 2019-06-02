@@ -9,7 +9,7 @@
     width: 100%;
     margin: 0 auto;
     height: 0px;
-    transition: height 1s;
+    transition: height 0.5s;
     overflow: hidden;
   }
 

@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+Use Redirect;
+use Carbon\Carbon;
 
 class dashboardController extends Controller
 {
     public function index(){
+        //$time=Carbon::now()->timestamp;
+        //dd(Carbon::now()->setTimezone('3')->toDateTimeString());
          $data = DB::table('tasks')->leftJoin('comments','comments.task_id','=','tasks.id')
                                     ->groupBy('tasks.id')
+                                    ->orderBy('created_at','desc')
                                     ->select('tasks.*',DB::raw('COALESCE(COUNT(comments.task_id),0) as count'))
                                     ->paginate(6);
 
@@ -35,16 +40,19 @@ class dashboardController extends Controller
         ));
 
         if ($validator->fails()) {
-            return response()->json([
-                'error'    => true,
-                'messages' => $validator->errors(),
-            ], 422);
+            //return redirect('layouts.errors')->with('error','form was submitting with errors');
+             return response()->json([
+                 'error'    => true,
+                 'messages' => $validator->errors(),
+             ], 422);
         }
         $result = DB::table('tasks')->insert(
             [
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'status_id' => $data['status'],
+                'created_at'=>Carbon::now()->setTimezone('3')->toDateTimeString(),
+                'updated_at'=>Carbon::now()->setTimezone('3')->toDateTimeString(),
             ]
         );
         return response()->json([
@@ -59,6 +67,8 @@ class dashboardController extends Controller
         $data = $request->input();
         $validator = Validator::make($request->input(), array(
             'newName' => 'required',
+            'description' => 'required',
+            
         ));
         if ($validator->fails()) {
             return response()->json([
@@ -66,11 +76,13 @@ class dashboardController extends Controller
                 'messages' => $validator->errors(),
             ], 422);
         }
-        DB::table('tasks')->where('id', $id)->update(['name' => $data['newName'],'description'=>$data['description'],'status_id'=>$data['status_id']]);
+        DB::table('tasks')->where('id', $id)->update(['name' => $data['newName'],'description'=>$data['description'],'status_id'=>$data['status_id'],'updated_at'=>Carbon::now()->setTimezone('3')->toDateTimeString()]);
         if($data['comment']!=''){
             DB::table('comments')->insert([
                 'task_id'=>$id,
                 'text_comment'=>$data['comment'],
+                'created_at'=>Carbon::now()->setTimezone('3')->toDateTimeString(),
+                'updated_at'=>Carbon::now()->setTimezone('3')->toDateTimeString(),
             ]);
         }
         
